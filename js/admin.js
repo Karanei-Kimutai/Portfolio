@@ -22,7 +22,7 @@ const editableSections = {
     },
     skills: {
         title: 'Edit Skills',
-        type: 'json'
+        type: 'skills'
     },
     projects: {
         title: 'Manage Projects',
@@ -288,6 +288,8 @@ async function openEditModal(sectionName) {
         });
     } else if (sectionConfig.type === 'profile') {
         renderProfileEditor(form);
+    } else if (sectionConfig.type === 'skills') {
+        renderSkillsEditor(form);
     } else if (sectionConfig.type === 'projects') {
         renderProjectManager(form);
     } else {
@@ -391,6 +393,131 @@ function renderProfileEditor(form) {
 
     photoGroup.append(photoLabel, photoCurrent, photoInput, photoHelp);
     form.appendChild(photoGroup);
+}
+
+function normalizeSkillItems(value) {
+    return String(value || '')
+        .split(',')
+        .map(item => item.trim())
+        .filter(Boolean);
+}
+
+function ensureSkillId(skill, index) {
+    if (skill.id) return skill.id;
+    return `sk-${Date.now()}-${index}`;
+}
+
+function syncSkillsHiddenField() {
+    const hidden = document.getElementById('edit-skills-json');
+    if (!hidden) return;
+    hidden.value = JSON.stringify(currentPortfolioData.skills || []);
+}
+
+function addSkillCategory() {
+    if (!Array.isArray(currentPortfolioData.skills)) {
+        currentPortfolioData.skills = [];
+    }
+
+    currentPortfolioData.skills.push({
+        id: `sk-${Date.now()}`,
+        category: 'New Category',
+        items: ['New Skill']
+    });
+
+    renderSkillsEditorRows();
+}
+
+function removeSkillCategory(index) {
+    if (!Array.isArray(currentPortfolioData.skills)) return;
+    if (currentPortfolioData.skills.length <= 1) {
+        showAdminError('At least one skill category is required.');
+        return;
+    }
+
+    currentPortfolioData.skills.splice(index, 1);
+    renderSkillsEditorRows();
+}
+
+function renderSkillsEditor(form) {
+    const tools = document.createElement('div');
+    tools.className = 'admin-tools';
+
+    const addCategoryButton = createAdminToolButton('Add Skill Category', addSkillCategory);
+    const helper = document.createElement('p');
+    helper.className = 'muted-text admin-status';
+    helper.textContent = 'Use one category per row. Separate skills with commas.';
+
+    tools.append(addCategoryButton, helper);
+    form.appendChild(tools);
+
+    const container = document.createElement('div');
+    container.id = 'skillsEditorRows';
+    container.className = 'skills-editor';
+    form.appendChild(container);
+
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.id = 'edit-skills-json';
+    hidden.name = 'skills_json';
+    form.appendChild(hidden);
+
+    renderSkillsEditorRows();
+}
+
+function renderSkillsEditorRows() {
+    const container = document.getElementById('skillsEditorRows');
+    if (!container) return;
+
+    if (!Array.isArray(currentPortfolioData.skills) || currentPortfolioData.skills.length === 0) {
+        currentPortfolioData.skills = [{
+            id: `sk-${Date.now()}`,
+            category: 'New Category',
+            items: ['New Skill']
+        }];
+    }
+
+    container.replaceChildren();
+
+    currentPortfolioData.skills.forEach((skillGroup, index) => {
+        skillGroup.id = ensureSkillId(skillGroup, index);
+
+        const row = document.createElement('div');
+        row.className = 'skill-manager-row surface-2-bg';
+
+        const categoryGroup = createInputGroup({
+            id: `edit-skill-category-${index}`,
+            labelText: 'Category',
+            name: `skill_category_${index}`,
+            value: skillGroup.category || ''
+        });
+
+        const itemsGroup = createInputGroup({
+            id: `edit-skill-items-${index}`,
+            labelText: 'Skills (comma-separated)',
+            name: `skill_items_${index}`,
+            value: Array.isArray(skillGroup.items) ? skillGroup.items.join(', ') : ''
+        });
+
+        const removeBtn = createAdminToolButton('Remove Category', () => {
+            removeSkillCategory(index);
+        });
+        removeBtn.classList.add('danger-btn');
+
+        categoryGroup.querySelector('input')?.addEventListener('input', event => {
+            skillGroup.category = event.target.value.trim();
+            syncSkillsHiddenField();
+        });
+
+        itemsGroup.querySelector('input')?.addEventListener('input', event => {
+            skillGroup.items = normalizeSkillItems(event.target.value);
+            syncSkillsHiddenField();
+        });
+
+        row.append(categoryGroup, itemsGroup, removeBtn);
+        container.appendChild(row);
+    });
+
+    syncSkillsHiddenField();
 }
 
 function renderProjectManager(form) {
@@ -923,6 +1050,8 @@ function collectEditedData() {
             github: form.elements.profile_github.value.trim(),
             linkedin: form.elements.profile_linkedin.value.trim()
         };
+    } else if (sectionConfig.type === 'skills') {
+        updatedPortfolioData.skills = cloneData(currentPortfolioData.skills || []);
     } else if (sectionConfig.type === 'projects') {
         updatedPortfolioData.projects = cloneData(currentPortfolioData.projects || []);
     } else {

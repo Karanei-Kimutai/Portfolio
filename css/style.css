@@ -500,6 +500,15 @@ textarea.form-input {
     font-size: 0.9rem;
 }
 
+.danger-btn {
+    border-color: #B3261E;
+    color: #B3261E;
+}
+
+.danger-btn:hover {
+    background-color: #FCE8E6;
+}
+
 .admin-tools {
     display: flex;
     flex-wrap: wrap;
@@ -509,6 +518,19 @@ textarea.form-input {
 
 .admin-status {
     font-size: 0.9rem;
+}
+
+.skills-editor {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.skill-manager-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    display: grid;
+    gap: 0.75rem;
 }
 
 .projects-manager {
