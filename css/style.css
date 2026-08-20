@@ -211,6 +211,11 @@ a {
     font-size: 1rem;
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     background-color: var(--amber);
     color: var(--white);
@@ -518,6 +523,24 @@ textarea.form-input {
 
 .admin-status {
     font-size: 0.9rem;
+}
+
+.admin-save-status {
+    min-height: 1.25rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.status-info {
+    color: var(--muted);
+}
+
+.status-success {
+    color: #1E7A35;
+}
+
+.status-error {
+    color: #B3261E;
 }
 
 .skills-editor {

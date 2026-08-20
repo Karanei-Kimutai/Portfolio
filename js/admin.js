@@ -43,6 +43,29 @@ function showAdminError(message) {
     alert(message);
 }
 
+function setSaveFeedback(message, tone = 'info') {
+    const feedback = document.getElementById('adminSaveStatus');
+    if (!feedback) return;
+
+    feedback.textContent = message || '';
+    feedback.classList.remove('status-info', 'status-success', 'status-error');
+    feedback.classList.add(`status-${tone}`);
+}
+
+function setSaveInProgress(isSaving) {
+    const saveButton = document.getElementById('saveChangesButton');
+    const cancelButton = document.getElementById('cancelChangesButton');
+
+    if (saveButton) {
+        saveButton.disabled = isSaving;
+        saveButton.textContent = isSaving ? 'Saving...' : 'Save to GitHub';
+    }
+
+    if (cancelButton) {
+        cancelButton.disabled = isSaving;
+    }
+}
+
 function updateAdminStatus(message, isError = false) {
     const status = document.getElementById('githubImportStatus');
     if (!status) return;
@@ -153,17 +176,23 @@ function injectSharedModal() {
 
     const cancelButton = document.createElement('button');
     cancelButton.type = 'button';
+    cancelButton.id = 'cancelChangesButton';
     cancelButton.className = 'btn btn-secondary';
     cancelButton.textContent = 'Cancel';
     cancelButton.addEventListener('click', closeEditModal);
 
     const saveButton = document.createElement('button');
     saveButton.type = 'submit';
+    saveButton.id = 'saveChangesButton';
     saveButton.className = 'btn btn-primary';
     saveButton.textContent = 'Save to GitHub';
 
+    const saveStatus = document.createElement('p');
+    saveStatus.id = 'adminSaveStatus';
+    saveStatus.className = 'admin-save-status status-info';
+
     actions.append(cancelButton, saveButton);
-    content.append(title, form, actions);
+    content.append(title, form, saveStatus, actions);
     modal.appendChild(content);
     document.body.appendChild(modal);
 }
@@ -275,6 +304,8 @@ async function openEditModal(sectionName) {
 
     title.textContent = sectionConfig.title;
     form.replaceChildren();
+    setSaveFeedback('');
+    setSaveInProgress(false);
 
     if (sectionConfig.type === 'fields') {
         sectionConfig.fields.forEach(fieldConfig => {
@@ -1124,6 +1155,8 @@ function openProjectTileEditor(projectId) {
 function closeEditModal() {
     const modal = document.getElementById('editModal');
     if (modal) modal.style.display = 'none';
+    setSaveFeedback('');
+    setSaveInProgress(false);
 }
 
 async function saveProfilePhotoIfSelected(updatedPortfolioData) {
@@ -1222,15 +1255,21 @@ async function commitChanges() {
     if (!activeEditSection) return;
 
     if (typeof commitFileToGitHub !== 'function') {
+        setSaveFeedback('GitHub save helper is not loaded on this page.', 'error');
         showAdminError('GitHub save helper is not loaded on this page.');
         return;
     }
+
+    setSaveInProgress(true);
+    setSaveFeedback('Saving changes to GitHub...', 'info');
 
     let updatedPortfolioData;
     try {
         updatedPortfolioData = collectEditedData();
     } catch (error) {
         console.error(error);
+        setSaveInProgress(false);
+        setSaveFeedback('The edited data is invalid. Fix highlighted fields and try again.', 'error');
         showAdminError('The edited data is invalid. Fix the issue and try again.');
         return;
     }
@@ -1247,10 +1286,14 @@ async function commitChanges() {
         );
 
         currentPortfolioData = updatedPortfolioData;
-        showAdminError('Changes saved. Refreshing...');
-        window.location.reload();
+        setSaveFeedback('Saved to GitHub successfully. Refreshing page...', 'success');
+        setTimeout(() => {
+            window.location.reload();
+        }, 1200);
     } catch (error) {
         console.error(error);
+        setSaveInProgress(false);
+        setSaveFeedback(error.message || 'Failed to save changes. Check browser console.', 'error');
         showAdminError(error.message || 'Failed to save changes. Check the browser console.');
     }
 }
