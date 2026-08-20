@@ -40,6 +40,7 @@ function getFormElement(name) {
 }
 
 function showAdminError(message) {
+    setSaveFeedback(message, 'error');
     alert(message);
 }
 
@@ -365,25 +366,29 @@ function renderProfileEditor(form) {
         id: 'edit-profile-location',
         labelText: 'Location',
         name: 'profile_location',
-        value: profile.location || ''
+        value: profile.location || '',
+        required: false
     }));
     form.appendChild(createInputGroup({
         id: 'edit-profile-email',
         labelText: 'Email',
         name: 'profile_email',
-        value: profile.email || ''
+        value: profile.email || '',
+        required: false
     }));
     form.appendChild(createInputGroup({
         id: 'edit-profile-github',
         labelText: 'GitHub URL',
         name: 'profile_github',
-        value: profile.github || ''
+        value: profile.github || '',
+        required: false
     }));
     form.appendChild(createInputGroup({
         id: 'edit-profile-linkedin',
         labelText: 'LinkedIn URL',
         name: 'profile_linkedin',
-        value: profile.linkedin || ''
+        value: profile.linkedin || '',
+        required: false
     }));
 
     const photoGroup = document.createElement('div');
@@ -1279,17 +1284,25 @@ async function commitChanges() {
             await saveProfilePhotoIfSelected(updatedPortfolioData);
         }
 
-        await commitFileToGitHub(
+        const saveResult = await commitFileToGitHub(
             'data/portfolio.json',
             updatedPortfolioData,
             `Admin: Update ${activeEditSection}`
         );
 
         currentPortfolioData = updatedPortfolioData;
-        setSaveFeedback('Saved to GitHub successfully. Refreshing page...', 'success');
-        setTimeout(() => {
-            window.location.reload();
-        }, 1200);
+
+        if (activeEditSection === 'profile' && typeof renderProfileSection === 'function') {
+            renderProfileSection(updatedPortfolioData.profile || {});
+        }
+
+        const shortSha = saveResult?.commit?.sha ? saveResult.commit.sha.slice(0, 7) : null;
+        const successMessage = shortSha
+            ? `Saved to GitHub successfully (commit ${shortSha}). GitHub Pages may take up to 60 seconds to reflect changes.`
+            : 'Saved to GitHub successfully. GitHub Pages may take up to 60 seconds to reflect changes.';
+
+        setSaveInProgress(false);
+        setSaveFeedback(successMessage, 'success');
     } catch (error) {
         console.error(error);
         setSaveInProgress(false);
