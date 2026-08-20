@@ -1,0 +1,499 @@
+/* ==========================================================================
+   style.css — Portfolio Shared Design System
+   ========================================================================== */
+
+/* --- 1. Imports & Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap');
+
+/* --- 2. CSS Variables (Design Tokens) --- */
+:root {
+    /* Colour Palette[cite: 1] */
+    --bg: #FDFAF7;
+    --surface: #F5EFE6;
+    --surface-2: #EDE4D8;
+    --border: #E2D6C8;
+    --border-2: #D4C4B0;
+    
+    --espresso: #2C1810;
+    --brown: #5C4A3A;
+    --muted: #9C8878;
+    --muted-2: #B8A898;
+    
+    --amber: #C8820A;
+    --amber-bg: #FBF0DC;
+    --amber-border: #F0D090;
+    --white: #FFFFFF;
+
+    /* Typography[cite: 1] */
+    --font-display: 'DM Serif Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+
+    /* Spacing & Layout */
+    --sidebar-width: 220px;
+    --content-max-width: 860px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+/* --- 3. Base & Reset --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    color: var(--brown);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* --- 4. Typography Classes --- */
+.display-text {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    line-height: 1.1;
+    color: var(--espresso);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle-text {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--brown);
+    margin-bottom: 1rem;
+}
+
+.tagline-text {
+    font-size: 1.25rem;
+    color: var(--espresso);
+    margin-bottom: 1.5rem;
+}
+
+.body-text {
+    font-size: 1rem;
+    color: var(--brown);
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    color: var(--espresso);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.section-spaced {
+    margin-top: 4rem;
+}
+
+/* Colour Utilities */
+.espresso-text { color: var(--espresso); }
+.brown-text { color: var(--brown); }
+.muted-text { color: var(--muted); }
+.amber-text { color: var(--amber); }
+.font-bold { font-weight: 700; }
+
+/* Background Utilities */
+.surface-2-bg { background-color: var(--surface-2); }
+.amber-bg { background-color: var(--amber-bg); }
+.amber-border { border: 1px solid var(--amber-border); }
+
+/* --- 5. Layout Architecture[cite: 1] --- */
+/* Desktop Layout: Sidebar left, Main content right */
+@media (min-width: 769px) {
+    body {
+        display: flex;
+    }
+}
+
+/* Sidebar (Sticky) */
+.sidebar {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    color: var(--espresso);
+}
+
+/* Main Content Area */
+.content-area {
+    flex: 1;
+    padding: 4rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.page-section {
+    max-width: var(--content-max-width);
+    width: 100%;
+    margin-bottom: 6rem;
+}
+
+/* Mobile Layout Overrides[cite: 1] */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 1.5rem;
+        flex-direction: column;
+        align-items: stretch;
+        z-index: 100;
+    }
+
+    .nav-menu {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0;
+        justify-content: center;
+    }
+
+    .nav-link {
+        font-size: 0.95rem;
+    }
+
+    .content-area {
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* --- 6. Components --- */
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--amber);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: #B07008; /* Slightly darker amber for hover */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--espresso);
+    border: 1px solid var(--border-2);
+}
+
+.btn-secondary:hover {
+    background-color: var(--surface);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.profile-photo {
+    display: block;
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--white);
+    box-shadow: 0 8px 24px rgba(44, 24, 16, 0.12);
+}
+
+.contact-intro {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.contact-card {
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.contact-card-title {
+    margin-bottom: 0.5rem;
+}
+
+.contact-actions {
+    margin-top: 3rem;
+}
+
+/* Project Gallery Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Project Tile */
+.project-tile {
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-tile:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(44, 24, 16, 0.05);
+}
+
+.tile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.tile-header h3 {
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}
+
+/* Tags & Badges */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--amber);
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tech-tag {
+    background-color: var(--surface);
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.tile-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.border-top {
+    border-top: 1px solid var(--border);
+}
+
+/* Education & Skills */
+.edu-item {
+    margin-bottom: 2rem;
+}
+
+.edu-degree {
+    font-size: 1.25rem;
+}
+
+.edu-meta {
+    font-size: 0.9rem;
+}
+
+.edu-details {
+    margin-top: 0.5rem;
+}
+
+.skill-category {
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+/* --- 7. Admin Mode Styles[cite: 1] --- */
+
+/* Hide edit buttons by default for public viewers */
+.edit-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--amber);
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+}
+
+.edit-btn:hover {
+    text-decoration: underline;
+}
+
+/* Show edit buttons and banner when admin mode is active */
+body.admin-mode .edit-btn {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* The amber banner injected at the top in admin mode[cite: 1] */
+.admin-banner {
+    display: none;
+    background-color: var(--amber);
+    color: var(--white);
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+body.admin-mode .admin-banner {
+    display: block;
+}
+
+/* Adjust sidebar top position when admin banner is present */
+body.admin-mode .sidebar {
+    top: 36px; 
+    height: calc(100vh - 36px);
+}
+
+body.admin-mode .content-area {
+    padding-top: 5rem;
+}
+
+/* Modal & Forms */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(44, 24, 16, 0.45);
+}
+
+.modal-content {
+    width: min(100%, 640px);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: 0 16px 48px rgba(44, 24, 16, 0.16);
+}
+
+.login-form,
+#dynamicEditForm {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--espresso);
+    font: inherit;
+}
+
+textarea.form-input {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.code-input {
+    min-height: 22rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.875rem;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.error-text {
+    color: #B3261E;
+    margin-top: 1rem;
+}
+
+.return-link {
+    margin-top: 2rem;
+}
+
+.compact-btn {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+.admin-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-status {
+    font-size: 0.9rem;
+}

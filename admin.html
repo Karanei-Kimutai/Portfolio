@@ -1,0 +1,43 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- The login modal container -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content surface-2-bg">
+            <h2 class="espresso-text">Admin Login</h2>
+            <p class="muted-text body-text">Enter a GitHub token to enable edit mode for this browser session.</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="githubPat" class="brown-text">GitHub Personal Access Token (PAT)</label>
+                    <input type="password" id="githubPat" required class="form-input">
+                    <small class="muted-text">Requires contents:write permission for the Portfolio repo.</small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary full-width">Authenticate</button>
+            </form>
+            <p id="loginError" class="error-text" hidden></p>
+        </div>
+    </div>
+
+    <!-- The dashboard view (hidden until authenticated) -->
+    <main id="adminDashboard" class="content-area" hidden>
+        <section class="page-section">
+            <h1 class="display-text">Admin Dashboard</h1>
+            <p class="body-text">Select a section on your live site to edit, or manage global settings here.</p>
+            <a href="index.html" class="btn btn-secondary return-link">Return to Live Site</a>
+        </section>
+    </main>
+
+    <!-- Core Scripts -->
+    <script src="./js/github.js"></script>
+    <script src="./js/admin.js"></script>
+</body>
+</html>

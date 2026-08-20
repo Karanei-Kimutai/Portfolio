@@ -1,0 +1,35 @@
+<!-- about.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Karanei Kimutai</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <aside id="sidebarNav" class="sidebar">
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="about.html" class="nav-link active amber-text font-bold">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </aside>
+
+    <main class="content-area">
+        <section class="page-section" id="aboutSection">
+            <h2 class="section-title espresso-text">About Me <button type="button" class="edit-btn" data-edit-section="education">Edit</button></h2>
+            <div id="educationTimeline"></div>
+            
+            <h2 class="section-title espresso-text section-spaced">Skills <button type="button" class="edit-btn" data-edit-section="skills">Edit</button></h2>
+            <div id="skillsGrid" class="projects-grid"></div>
+        </section>
+    </main>
+
+    <script src="./js/data.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/github.js"></script>
+    <script src="./js/admin.js"></script>
+</body>
+</html>

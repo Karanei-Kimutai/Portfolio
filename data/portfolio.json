@@ -1,0 +1,157 @@
+{
+  "profile": {
+    "name": "Karanei Kimutai Michael",
+    "title": "Full-Stack Developer · Scripting & Automation · Machine Learning",
+    "tagline": "I build technology that solves problems people actually have.",
+    "location": "Nairobi, Kenya",
+    "email": "karaneijunior@gmail.com",
+    "github": "https://github.com/Karanei-Kimutai",
+    "linkedin": "https://ke.linkedin.com/in/karanei-kimutai-a9063637b",
+    "photo": "assets/profile.jpg",
+    "summary": "Third-year Informatics and Computer Science student at Strathmore University with hands-on experience building full-stack web platforms, REST APIs, automation scripts, and USSD applications. Currently developing Sikika, a dual-channel GBV support platform reaching survivors across Kenya via both web and USSD. Experienced in Python scripting and automation, machine learning workflows, and data analysis. I care about the whole picture — the architecture, the user experience, and the real-world impact."
+  },
+  "education": [
+    {
+      "id": "edu1",
+      "degree": "BSc Informatics and Computer Science",
+      "institution": "Strathmore University",
+      "location": "Nairobi, Kenya",
+      "period": "Apr 2024 – Present",
+      "note": "Third Year · Expected Graduation: June 2028",
+      "details": "Relevant coursework: Software Engineering, Database Systems, Internet Application Programming, Computer Networks, OOP, Machine Learning, Design Thinking, Digital Logic, Scripting. Capstone: Sikika GBV support platform."
+    },
+    {
+      "id": "edu2",
+      "degree": "AI for Software Developers Programme",
+      "institution": "Moringa School",
+      "location": "Nairobi, Kenya",
+      "period": "April 2025",
+      "note": "",
+      "details": "Prompt engineering, AI-assisted debugging, coding agents, workflow automation, and ethical considerations in AI development."
+    },
+    {
+      "id": "edu3",
+      "degree": "Kenya Certificate of Secondary Education — Mean Grade: A",
+      "institution": "Alliance High School",
+      "location": "Kenya",
+      "period": "2020 – 2023",
+      "note": "",
+      "details": "Graduated with a Mean Grade of A — one of Kenya's most competitive national results."
+    }
+  ],
+  "skills": [
+    { "id": "sk1", "category": "Languages",               "items": ["Python", "JavaScript (ES6+)", "Java", "PHP", "SQL", "HTML/CSS"] },
+    { "id": "sk2", "category": "Scripting & Automation",  "items": ["Selenium", "IMAP/SMTP", "Docker", "Bash", "yt-dlp", "ffmpeg"] },
+    { "id": "sk3", "category": "Machine Learning & Data", "items": ["pandas", "NumPy", "matplotlib", "seaborn", "Jupyter", "EDA", "ML Preprocessing"] },
+    { "id": "sk4", "category": "Frontend",                "items": ["React", "Tailwind CSS", "Alpine.js", "Vite", "Blade"] },
+    { "id": "sk5", "category": "Backend",                 "items": ["Node.js", "Express", "Socket.io", "Laravel", "REST APIs", "SSE"] },
+    { "id": "sk6", "category": "Databases & Cloud",       "items": ["MySQL", "Sequelize ORM", "Cloudinary", "Africa's Talking API", "JWT"] },
+    { "id": "sk7", "category": "Testing & Tools",         "items": ["PHPUnit", "pytest", "TDD", "Git", "GitHub", "Postman", "PlantUML"] }
+  ],
+  "projects": [
+    {
+      "id": "proj1",
+      "repo": "Sikika",
+      "displayName": "Sikika — GBV Support Platform",
+      "badge": "Capstone",
+      "featured": true,
+      "visible": true,
+      "description": "A dual-channel platform (web + USSD) connecting gender-based violence survivors to counsellors, legal counsel, and NGO services across Kenya. Built to work for everyone — including those without smartphones — via Africa's Talking USSD integration. Multi-role auth, real-time messaging via Socket.io, OTP verification.",
+      "tags": ["React", "Node.js", "Express", "Socket.io", "MySQL", "Sequelize", "Africa's Talking", "JWT", "Cloudinary"],
+      "private": false
+    },
+    {
+      "id": "proj2",
+      "repo": "DrinksDistributionSystem",
+      "displayName": "Drinks Distribution System",
+      "badge": "Web App",
+      "featured": false,
+      "visible": true,
+      "description": "A modular, multi-role supply chain web platform for beverage distributors. Supports HQ Admins, Branch Managers, and Shop Owners with tailored dashboards, inventory tracking, inter-branch stock transfers, and TDD via PHPUnit.",
+      "tags": ["Laravel", "PHP", "MySQL", "Alpine.js", "Tailwind CSS", "PHPUnit", "Vite"],
+      "private": false
+    },
+    {
+      "id": "proj3",
+      "repo": "DueDay",
+      "displayName": "DueDay — University Companion Platform",
+      "badge": "Team Project",
+      "featured": false,
+      "visible": true,
+      "description": "Backend & database lead on a 5-person team. Built a university companion platform centralising assignments, events, polls and timetables. Implemented the full DB schema and Server-Sent Events for real-time notifications.",
+      "tags": ["PHP", "MySQL", "JavaScript", "SSE", "REST API"],
+      "private": false,
+      "repoUrl": "https://github.com/mukundi0/DueDay"
+    },
+    {
+      "id": "proj4",
+      "repo": "InternetApplicationProgrammingProject",
+      "displayName": "Temporary Pass Application System",
+      "badge": "Web App",
+      "featured": false,
+      "visible": true,
+      "description": "Digitalised Strathmore's manual campus pass process. Four role portals, automated approval logic, QR code generation, real-time entry scanning, and a dual-database architecture integrating the University AMS.",
+      "tags": ["Laravel", "PHP", "MySQL", "QR Codes", "PHPMailer"],
+      "private": false
+    },
+    {
+      "id": "proj5",
+      "repo": "strathmore-password-reset",
+      "displayName": "AMS Password Reset Automation",
+      "badge": "Scripting",
+      "featured": false,
+      "visible": true,
+      "description": "End-to-end Python automation for the Strathmore AMS password reset workflow. Headless browser automation, IMAP email parsing, cryptographically secure password generation, and Docker containerisation for cross-platform use.",
+      "tags": ["Python", "Selenium", "Docker", "IMAP", "SMTP"],
+      "private": false
+    },
+    {
+      "id": "proj6",
+      "repo": "DrakeMaxxing",
+      "displayName": "DrakeMaxxing",
+      "badge": "Scripting",
+      "featured": false,
+      "visible": true,
+      "description": "Programmatically assembled a ranked 250-track Drake playlist on Spotify via the Web API. Custom multi-rule song matcher with version deduplication, incremental checkpointing, and a live API migration fix mid-development. Achieved 250/250 matches.",
+      "tags": ["Python", "Spotify API", "OAuth", "Data Processing"],
+      "private": false
+    },
+    {
+      "id": "proj7",
+      "repo": "SpotifyPlaylistDownloader",
+      "displayName": "Spotify Playlist Downloader",
+      "badge": "Scripting",
+      "featured": false,
+      "visible": true,
+      "description": "CLI tool that resolves a Spotify playlist, finds each track on YouTube via fuzzy title+duration scoring, downloads audio via yt-dlp, converts to MP3 with ffmpeg, and writes ID3 tags including embedded album art with mutagen.",
+      "tags": ["Python", "Spotify API", "yt-dlp", "ffmpeg", "mutagen", "pytest"],
+      "private": false
+    },
+    {
+      "id": "proj8",
+      "repo": "SpotifyLikedSongsToPlaylistConverter",
+      "displayName": "Spotify Liked Songs Converter",
+      "badge": "Scripting",
+      "featured": false,
+      "visible": true,
+      "description": "Syncs a user's full Liked Songs library into a Spotify playlist with bidirectional sync — adds newly liked tracks, removes unliked ones. Handles API pagination and OAuth token caching. Clean class-based architecture.",
+      "tags": ["Python", "Spotify API", "OAuth", "Pagination"],
+      "private": false
+    },
+    {
+      "id": "proj9",
+      "repo": "OOP2Project",
+      "displayName": "Java OOP Project",
+      "badge": "Coursework",
+      "featured": false,
+      "visible": true,
+      "description": "Collaborative Java application applying OOP design principles — inheritance, encapsulation, polymorphism — built as a team with Git branching and pull request workflows.",
+      "tags": ["Java", "OOP", "Git"],
+      "private": false
+    }
+  ],
+  "contact": {
+    "intro": "Whether you're a recruiter, a collaborator, or someone with a problem worth solving — I'd love to hear from you.",
+    "availability": "Open to internships and part-time roles"
+  }
+}
