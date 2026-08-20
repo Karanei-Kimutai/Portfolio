@@ -145,12 +145,33 @@ async function fetchAuthenticatedRepositories() {
  */
 async function fetchProjectReadme(repoName, owner = githubOwner) {
     const token = getGitHubToken();
-    const url = `https://api.github.com/repos/${owner}/${repoName}/readme`;
-    const response = await fetch(url, {
+    const contentsUrl = `https://api.github.com/repos/${owner}/${repoName}/contents`;
+    const contentsResponse = await fetch(contentsUrl, {
+        headers: getGitHubHeaders(token)
+    });
+
+    if (!contentsResponse.ok) {
+        return '';
+    }
+
+    const rootItems = await contentsResponse.json();
+    if (!Array.isArray(rootItems)) {
+        return '';
+    }
+
+    const readmeEntry = rootItems.find(item => {
+        return typeof item?.name === 'string' && /^readme(\.|$)/i.test(item.name);
+    });
+
+    if (!readmeEntry?.url) {
+        return '';
+    }
+
+    const readmeResponse = await fetch(readmeEntry.url, {
         headers: getGitHubHeaders(token, 'application/vnd.github.raw+json')
     });
 
-    return response.ok ? await response.text() : '';
+    return readmeResponse.ok ? await readmeResponse.text() : '';
 }
 
 /**

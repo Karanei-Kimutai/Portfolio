@@ -31,8 +31,6 @@ async function fetchPortfolioData() {
         }
         
         const portfolioData = await response.json();
-        console.log('Portfolio data successfully loaded:', portfolioData);
-        
         return portfolioData;
     } catch (fetchError) {
         console.error('Failed to load portfolio data:', fetchError);
