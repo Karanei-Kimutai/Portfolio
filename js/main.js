@@ -66,6 +66,7 @@ function renderProjectsGallery(projectsArray) {
 
     visibleProjects.forEach(project => {
         const article = createElement('article', { className: 'project-tile surface-2-bg' });
+        article.dataset.projectId = project.id || project.repo || '';
         const header = createElement('header', { className: 'tile-header' });
         const title = createElement('h3', {
             className: 'espresso-text',
@@ -84,7 +85,7 @@ function renderProjectsGallery(projectsArray) {
 
         header.append(title, badge);
 
-        project.tags.forEach(tag => {
+        (Array.isArray(project.tags) ? project.tags : []).forEach(tag => {
             tagsContainer.appendChild(createElement('span', {
                 className: 'tech-tag',
                 textContent: tag

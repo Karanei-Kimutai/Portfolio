@@ -247,6 +247,10 @@ a {
     box-shadow: 0 8px 24px rgba(44, 24, 16, 0.12);
 }
 
+.hero-edit-btn {
+    margin: 0 0 1rem;
+}
+
 .contact-intro {
     margin-bottom: 2rem;
     font-size: 1.1rem;
@@ -383,6 +387,15 @@ body.admin-mode .edit-btn {
     align-items: center;
 }
 
+body.admin-mode .admin-editable-tile {
+    cursor: pointer;
+    outline: 1px dashed transparent;
+}
+
+body.admin-mode .admin-editable-tile:hover {
+    outline-color: var(--amber-border);
+}
+
 /* The amber banner injected at the top in admin mode[cite: 1] */
 .admin-banner {
     display: none;
@@ -496,4 +509,96 @@ textarea.form-input {
 
 .admin-status {
     font-size: 0.9rem;
+}
+
+.projects-manager {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.project-manager-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.project-manager-row.dragging {
+    opacity: 0.5;
+}
+
+.project-manager-row.drop-target {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 2px rgba(200, 130, 10, 0.2);
+}
+
+.drag-handle {
+    cursor: move;
+}
+
+.project-row-info {
+    min-width: 0;
+}
+
+.project-row-info p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.project-row-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.project-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.repo-picker {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.repo-option {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.repo-option input[type='checkbox'] {
+    width: 1rem;
+    height: 1rem;
+}
+
+.repo-option-details {
+    min-width: 0;
+}
+
+.repo-option-details p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .project-manager-row {
+        grid-template-columns: 1fr;
+    }
+
+    .project-row-controls {
+        justify-content: flex-start;
+    }
 }
