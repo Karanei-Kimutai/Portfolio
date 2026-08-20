@@ -18,7 +18,7 @@ const editableSections = {
     },
     education: {
         title: 'Edit Education',
-        type: 'json'
+        type: 'education'
     },
     skills: {
         title: 'Edit Skills',
@@ -288,28 +288,15 @@ async function openEditModal(sectionName) {
         });
     } else if (sectionConfig.type === 'profile') {
         renderProfileEditor(form);
+    } else if (sectionConfig.type === 'education') {
+        renderEducationEditor(form);
     } else if (sectionConfig.type === 'skills') {
         renderSkillsEditor(form);
     } else if (sectionConfig.type === 'projects') {
         renderProjectManager(form);
     } else {
-        const group = document.createElement('div');
-        group.className = 'form-group';
-
-        const label = document.createElement('label');
-        label.className = 'brown-text';
-        label.htmlFor = 'edit-json';
-        label.textContent = `${sectionConfig.title.replace('Edit ', '')} JSON`;
-
-        const textarea = document.createElement('textarea');
-        textarea.id = 'edit-json';
-        textarea.name = 'json';
-        textarea.className = 'form-input code-input';
-        textarea.required = true;
-        textarea.value = JSON.stringify(currentPortfolioData[sectionName], null, 2);
-
-        group.append(label, textarea);
-        form.appendChild(group);
+        showAdminError(`No form editor is configured for ${sectionConfig.title}.`);
+        return;
     }
 
     modal.style.display = 'flex';
@@ -518,6 +505,171 @@ function renderSkillsEditorRows() {
     });
 
     syncSkillsHiddenField();
+}
+
+function syncEducationHiddenField() {
+    const hidden = document.getElementById('edit-education-json');
+    if (!hidden) return;
+    hidden.value = JSON.stringify(currentPortfolioData.education || []);
+}
+
+function ensureEducationId(entry, index) {
+    if (entry.id) return entry.id;
+    return `edu-${Date.now()}-${index}`;
+}
+
+function addEducationItem() {
+    if (!Array.isArray(currentPortfolioData.education)) {
+        currentPortfolioData.education = [];
+    }
+
+    currentPortfolioData.education.push({
+        id: `edu-${Date.now()}`,
+        degree: 'New Degree',
+        institution: 'Institution',
+        location: 'Location',
+        period: 'Period',
+        note: '',
+        details: 'Add details about this experience.'
+    });
+
+    renderEducationEditorRows();
+}
+
+function removeEducationItem(index) {
+    if (!Array.isArray(currentPortfolioData.education)) return;
+    if (currentPortfolioData.education.length <= 1) {
+        showAdminError('At least one education entry is required.');
+        return;
+    }
+
+    currentPortfolioData.education.splice(index, 1);
+    renderEducationEditorRows();
+}
+
+function renderEducationEditor(form) {
+    const tools = document.createElement('div');
+    tools.className = 'admin-tools';
+
+    const addEducationButton = createAdminToolButton('Add Education Entry', addEducationItem);
+    const helper = document.createElement('p');
+    helper.className = 'muted-text admin-status';
+    helper.textContent = 'Edit each row directly. No JSON required.';
+
+    tools.append(addEducationButton, helper);
+    form.appendChild(tools);
+
+    const container = document.createElement('div');
+    container.id = 'educationEditorRows';
+    container.className = 'education-editor';
+    form.appendChild(container);
+
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.id = 'edit-education-json';
+    hidden.name = 'education_json';
+    form.appendChild(hidden);
+
+    renderEducationEditorRows();
+}
+
+function renderEducationEditorRows() {
+    const container = document.getElementById('educationEditorRows');
+    if (!container) return;
+
+    if (!Array.isArray(currentPortfolioData.education) || currentPortfolioData.education.length === 0) {
+        currentPortfolioData.education = [{
+            id: `edu-${Date.now()}`,
+            degree: 'New Degree',
+            institution: 'Institution',
+            location: 'Location',
+            period: 'Period',
+            note: '',
+            details: 'Add details about this experience.'
+        }];
+    }
+
+    container.replaceChildren();
+
+    currentPortfolioData.education.forEach((entry, index) => {
+        entry.id = ensureEducationId(entry, index);
+
+        const row = document.createElement('div');
+        row.className = 'education-manager-row surface-2-bg';
+
+        const degreeGroup = createInputGroup({
+            id: `edit-edu-degree-${index}`,
+            labelText: 'Degree',
+            name: `edu_degree_${index}`,
+            value: entry.degree || ''
+        });
+        const institutionGroup = createInputGroup({
+            id: `edit-edu-institution-${index}`,
+            labelText: 'Institution',
+            name: `edu_institution_${index}`,
+            value: entry.institution || ''
+        });
+        const locationGroup = createInputGroup({
+            id: `edit-edu-location-${index}`,
+            labelText: 'Location',
+            name: `edu_location_${index}`,
+            value: entry.location || ''
+        });
+        const periodGroup = createInputGroup({
+            id: `edit-edu-period-${index}`,
+            labelText: 'Period',
+            name: `edu_period_${index}`,
+            value: entry.period || ''
+        });
+        const noteGroup = createInputGroup({
+            id: `edit-edu-note-${index}`,
+            labelText: 'Note (optional)',
+            name: `edu_note_${index}`,
+            value: entry.note || '',
+            required: false
+        });
+        const detailsGroup = createInputGroup({
+            id: `edit-edu-details-${index}`,
+            labelText: 'Details',
+            name: `edu_details_${index}`,
+            value: entry.details || '',
+            multiline: true
+        });
+
+        const removeBtn = createAdminToolButton('Remove Entry', () => {
+            removeEducationItem(index);
+        });
+        removeBtn.classList.add('danger-btn');
+
+        [
+            [degreeGroup, 'degree'],
+            [institutionGroup, 'institution'],
+            [locationGroup, 'location'],
+            [periodGroup, 'period'],
+            [noteGroup, 'note'],
+            [detailsGroup, 'details']
+        ].forEach(([group, key]) => {
+            const field = group.querySelector('input, textarea');
+            if (!field) return;
+            field.addEventListener('input', event => {
+                entry[key] = event.target.value.trim();
+                syncEducationHiddenField();
+            });
+        });
+
+        row.append(
+            degreeGroup,
+            institutionGroup,
+            locationGroup,
+            periodGroup,
+            noteGroup,
+            detailsGroup,
+            removeBtn
+        );
+        container.appendChild(row);
+    });
+
+    syncEducationHiddenField();
 }
 
 function renderProjectManager(form) {
@@ -1050,12 +1202,14 @@ function collectEditedData() {
             github: form.elements.profile_github.value.trim(),
             linkedin: form.elements.profile_linkedin.value.trim()
         };
+    } else if (sectionConfig.type === 'education') {
+        updatedPortfolioData.education = cloneData(currentPortfolioData.education || []);
     } else if (sectionConfig.type === 'skills') {
         updatedPortfolioData.skills = cloneData(currentPortfolioData.skills || []);
     } else if (sectionConfig.type === 'projects') {
         updatedPortfolioData.projects = cloneData(currentPortfolioData.projects || []);
     } else {
-        updatedPortfolioData[activeEditSection] = JSON.parse(form.elements.json.value);
+        throw new Error('Unsupported editor type.');
     }
 
     return updatedPortfolioData;

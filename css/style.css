@@ -533,6 +533,19 @@ textarea.form-input {
     gap: 0.75rem;
 }
 
+.education-editor {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.education-manager-row {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    display: grid;
+    gap: 0.75rem;
+}
+
 .projects-manager {
     display: grid;
     gap: 0.75rem;
